@@ -6,8 +6,8 @@ app = Flask(__name__)
 
 def generate_password(length):
     basic_chars = string.ascii_letters + string.digits + string.punctuation
-    extras = ' \t\n±§©®'
-    all_chars = basic_chars + extras
+    
+    all_chars = basic_chars 
     return ''.join(random.choice(all_chars) for _ in range(length))
 
 def check_strength(password):
