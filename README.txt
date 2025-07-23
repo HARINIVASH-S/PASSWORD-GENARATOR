@@ -1,3 +1,4 @@
+# web app
 A simple and secure password generator using Flask, HTML, CSS, and Bootstrap.
 
 ## Run Instructions
