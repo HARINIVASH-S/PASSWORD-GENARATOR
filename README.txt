@@ -1,6 +1,7 @@
 #
 A simple and secure password generator using Flask, HTML, CSS, and Bootstrap.
-
+It can generate Passsword.
+It can validate the password strength.
 ## Run Instructions
 
 1. Install dependencies:
