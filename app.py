@@ -55,7 +55,11 @@ def check():
     progress = 0
     if request.method == 'POST':
         user_password = request.form['user_password']
-        strength, progress = check_strength(user_password)
+        if user_password:
+            strength, progress = check_strength(user_password)
+        else:
+            strength = 'Enter a password to check.'
+            progress = 0
     return render_template('strength_check.html', password=user_password, strength=strength, progress=progress)
 
 if __name__ == '__main__':
