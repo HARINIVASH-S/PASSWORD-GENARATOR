@@ -37,17 +37,36 @@
             </div>
             <button type="submit" class="btn btn-primary">Generate Password</button>
         </form>
+
         <a href="/check" class="btn btn-outline-light mt-3">Check Password Strength</a>
 
         {% if password %}
         <div class="alert alert-success mt-4">
-            <strong>Generated Password:</strong> {{ password }}<br>
+            <strong>Generated Password:</strong>
+            <span id="generatedPassword">{{ password }}</span>
+            <button class="btn btn-sm btn-light ms-2" onclick="copyPassword()">Copy</button><br>
+
             <strong>Strength:</strong> {{ strength }}
             <div class="progress mt-2">
-                <div class="progress-bar bg-info" role="progressbar" style= "width: {{ progress}}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+                <div class="progress-bar bg-info" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+                    {{ progress }}%
+                </div>
             </div>
         </div>
         {% endif %}
     </div>
+
+    <!-- JavaScript for copy functionality -->
+    <script>
+        function copyPassword() {
+            const passwordText = document.getElementById("generatedPassword").innerText;
+            navigator.clipboard.writeText(passwordText).then(() => {
+                alert("Password copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy password.");
+                console.error(err);
+            });
+        }
+    </script>
 </body>
 </html>
