@@ -21,7 +21,7 @@ def check_strength(password):
     if any(c in string.punctuation for c in password):
         score += 1
     if any(c.isspace() for c in password):
-        score += 1
+        score -= 1
 
     if score <= 1:
         return 'Weak', 20
