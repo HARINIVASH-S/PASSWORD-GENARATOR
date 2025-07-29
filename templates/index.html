@@ -19,7 +19,7 @@
             background-color: rgba(0, 0, 0, 0.6);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(234, 215, 215, 0.2);
         }
         input.form-control {
             background-color: #fff;
@@ -44,7 +44,7 @@
             <strong>Generated Password:</strong> {{ password }}<br>
             <strong>Strength:</strong> {{ strength }}
             <div class="progress mt-2">
-                <div class="progress-bar bg-info" role="progress bar" style= "width: {{ progress}}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+                <div class="progress-bar bg-info" role="progressbar" style= "width: {{ progress}}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
             </div>
         </div>
         {% endif %}

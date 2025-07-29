@@ -37,15 +37,34 @@
             <button type="submit" class="btn btn-warning">Check Strength</button>
         </form>
         <a href="/" class="btn btn-outline-light mt-3">← Back to Password Generator</a>
-        {% if password %}
-        <div class="alert alert-info mt-4">
-            <strong>Password:</strong> {{ password }}<br>
-            <strong>Strength:</strong> {{ strength }}
-            <div class="progress mt-2">
-                <div class="progress-bar bg-success" role="progress bar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
-            </div>
+       {% if strength %}
+<div class="alert alert-info mt-4">
+    {% if password %}
+        <strong>Password:</strong> {{ password }}<br>
+    {% endif %}
+    <strong>Strength:</strong> {{ strength }}
+    
+    {% if password %}
+    <div class="progress mt-2">
+        <div class="progress-bar 
+            {% if progress <= 40 %}
+                bg-danger
+            {% elif progress <= 70 %}
+                bg-warning
+            {% else %}
+                bg-success
+            {% endif %}"
+            role="progressbar"
+            style="width: {{ progress }}%;"
+            aria-valuenow="{{ progress }}"
+            aria-valuemin="0"
+            aria-valuemax="100">
+            {{ progress }}%
         </div>
-        {% endif %}
     </div>
+    {% endif %}
+</div>
+{% endif %}
+
 </body>
 </html>
