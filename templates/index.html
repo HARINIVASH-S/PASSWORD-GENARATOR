@@ -61,31 +61,7 @@
             </div>
         </div>
 
-        <script>
-            let isVisible = false;
-            const passwordSpan = document.getElementById("password-field");
-
-            function revealPassword() {
-                if (!isVisible) {
-                    passwordSpan.style.display = "inline";
-                    isVisible = true;
-                } else {
-                    passwordSpan.style.display = "none";
-                    isVisible = false;
-                }
-            }
-
-            function copyPassword() {
-                const password = passwordSpan.innerText;
-                navigator.clipboard.writeText(password).then(() => {
-                    alert("Password copied to clipboard!");
-                }).catch(err => {
-                    alert("Failed to copy password.");
-                    console.error(err);
-                });
-            }
-        </script>
-        {% endif %}
+       
     </div>
 </body>
 </html>
