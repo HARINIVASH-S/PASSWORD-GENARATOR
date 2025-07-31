@@ -21,20 +21,25 @@
             border-radius: 15px;
             box-shadow: 0 0 15px rgba(234, 215, 215, 0.2);
         }
-        input.form-control, input.form-control[readonly] {
+        input.form-control {
             background-color: #fff;
             color: #000;
+        }
+        #password-field {
+            display: none;
+            font-family: monospace;
+            font-size: 1.2em;
+            user-select: all;
         }
     </style>
 </head>
 <body>
     <div class="container text-center">
         <h2 class="mb-4">Secure Password Generator</h2>
-
         <form method="post">
             <div class="mb-3">
                 <label for="length" class="form-label">Password Length:</label>
-                <input type="number" id="length" name="length" class="form-control" value="{{ request.form.length or 12 }}" min="4" max="64">
+                <input type="number" id="length" name="length" class="form-control" value="12" min="4" max="64">
             </div>
             <button type="submit" class="btn btn-primary">Generate Password</button>
         </form>
@@ -44,34 +49,42 @@
         {% if password %}
         <div class="alert alert-success mt-4">
             <strong>Generated Password:</strong>
+            <span id="password-field">{{ password }}</span>
+            <button class="btn btn-sm btn-light ms-2" onclick="revealPassword()">Show</button>
+            <button class="btn btn-sm btn-info ms-2" onclick="copyPassword()">Copy</button><br>
 
-            <!-- Password reveal/hide toggle form -->
-            <form method="post" class="d-inline">
-                <input type="hidden" name="length" value="{{ request.form.length or 12 }}">
-                <input type="hidden" name="reveal" value="{{ 'no' if reveal else 'yes' }}">
-                <input type="hidden" name="password" value="{{ password }}">
-                <div class="input-group mt-2">
-                    <input type="text" class="form-control" value="{{ password if reveal else '••••••••••••••' }}" readonly>
-                    <button type="submit" class="btn btn-light">{{ 'Hide' if reveal else 'Show' }}</button>
-                </div>
-            </form>
-
-            <!-- Simulated copy button -->
-            <form method="post" class="mt-2">
-                <input type="hidden" name="length" value="{{ request.form.length or 12 }}">
-                <input type="hidden" name="reveal" value="{{ 'yes' if reveal else 'no' }}">
-                <input type="hidden" name="password" value="{{ password }}">
-                <input type="hidden" name="copy" value="true">
-                <button type="submit" class="btn btn-sm btn-outline-light">Copy (Simulated)</button>
-            </form>
-
-            <strong class="d-block mt-3">Strength:</strong> {{ strength }}
+            <strong>Strength:</strong> {{ strength }}
             <div class="progress mt-2">
                 <div class="progress-bar bg-info" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
                     {{ progress }}%
                 </div>
             </div>
         </div>
+
+        <script>
+            let isVisible = false;
+            const passwordSpan = document.getElementById("password-field");
+
+            function revealPassword() {
+                if (!isVisible) {
+                    passwordSpan.style.display = "inline";
+                    isVisible = true;
+                } else {
+                    passwordSpan.style.display = "none";
+                    isVisible = false;
+                }
+            }
+
+            function copyPassword() {
+                const password = passwordSpan.innerText;
+                navigator.clipboard.writeText(password).then(() => {
+                    alert("Password copied to clipboard!");
+                }).catch(err => {
+                    alert("Failed to copy password.");
+                    console.error(err);
+                });
+            }
+        </script>
         {% endif %}
     </div>
 </body>
