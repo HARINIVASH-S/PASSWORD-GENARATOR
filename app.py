@@ -5,9 +5,7 @@ import string
 app = Flask(__name__, static_url_path='/static')
 
 def generate_password(length):
-    basic_chars = string.ascii_letters + string.digits + string.punctuation
-    
-    all_chars = basic_chars 
+    all_chars = string.ascii_letters + string.digits + string.punctuation
     return ''.join(random.choice(all_chars) for _ in range(length))
 
 def check_strength(password):
@@ -39,14 +37,28 @@ def index():
     password = ''
     strength = ''
     progress = 0
+    reveal = False
+
     if request.method == 'POST':
         try:
-            length = int(request.form['length'])
-            password = generate_password(length)
+            length = int(request.form.get('length', 12))
+            reveal = request.form.get('reveal') == 'yes'
+
+            # Preserve password on copy/reveal toggle
+            if request.form.get('copy') == 'true':
+                password = request.form.get('password', '')
+            elif request.form.get('password'):
+                password = request.form.get('password')
+            else:
+                password = generate_password(length)
+
             strength, progress = check_strength(password)
         except:
             password = 'Error generating password!'
-    return render_template('index.html', password=password, strength=strength, progress=progress)
+            strength = 'Error'
+            progress = 0
+
+    return render_template('index.html', password=password, strength=strength, progress=progress, reveal=reveal)
 
 @app.route('/check', methods=['GET', 'POST'])
 def check():
@@ -55,7 +67,7 @@ def check():
     progress = 0
 
     if request.method == 'POST':
-        user_password = request.form['user_password']
+        user_password = request.form.get('user_password', '')
         if user_password:
             strength, progress = check_strength(user_password)
         else:
@@ -63,7 +75,6 @@ def check():
             progress = 0
 
     return render_template('strength_check.html', password=user_password, strength=strength, progress=progress)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
